@@ -59,21 +59,9 @@ generate_key() {
         return 0
     fi
 
-    local key_days=${REGISTRY_AUTH_KEY_DAYS:-365}
-    local key_size=${REGISTRY_AUTH_KEY_SIZE:-2048}
-    local key_subj=${REGISTRY_AUTH_KEY_SUBJ:-'/O=ExampleOrg/OU=IT Department/CN=example.com'}
-
-    openssl genrsa -des3 -passout pass:x -out server.pass.key "${key_size}"
-    openssl rsa -passin pass:x -in server.pass.key -out server.key
-    openssl req -new -key server.key -out server.csr -subj "${key_subj}"
-    openssl x509 -req -days "${key_days}" -in server.csr -signkey server.key -out server.crt
-
-    rm server.pass.key server.csr
-    mv server.crt "${REGISTRY_AUTH_CERT}"
-    mv server.key "${REGISTRY_AUTH_KEY}"
+    gen-ssl-certs.sh "${dir}" "" "server"
 
     local crt_content=`cat "${REGISTRY_AUTH_CERT}"`
-
     printNotice "Generated certificate:\n${crt_content}"
 }
 

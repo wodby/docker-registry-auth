@@ -1,16 +1,17 @@
-FROM wodby/alpine:3.6-1.2.0
+FROM wodby/alpine:3.7-1.2.0
 
 ENV DOCKER_AUTH_VER="1.3"
 
 RUN set -xe; \
     \
     export GOPATH="/root/go"; \
-    export GO_VER="1.8.4-r0"; \
-    export PYTHON_VER="2.7.13-r1"; \
+    export GO_VER="1.9.2-r1"; \
+    export PYTHON_VER="2.7.14-r2"; \
     export PIP_VER="9.0.1-r1"; \
     \
     apk add --update \
         libressl \
+        make \
         apache2-utils \
         pwgen; \
     apk add --update --no-cache -t .build-deps \
@@ -53,8 +54,9 @@ RUN set -xe; \
         /root/go \
         /var/cache/apk/*;
 
-COPY docker-entrypoint.sh /
 COPY templates /etc/gotpl/
+COPY actions /usr/local/bin
+COPY docker-entrypoint.sh /
 
 EXPOSE 5001
 
