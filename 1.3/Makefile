@@ -21,8 +21,7 @@ build:
 
 .PHONY: test
 test:
-	cd ./test/8 && IMAGE=$(REPO):$(TAG) ./run.sh
-	cd ./test/7 && IMAGE=$(REPO):$(TAG) ./run.sh
+	IMAGE=$(REPO):$(TAG) ./test.sh
 
 .PHONY: push
 push:
