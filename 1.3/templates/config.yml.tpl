@@ -1,25 +1,25 @@
 server:
-  addr: "{{ getenv "REGISTRY_AUTH_ADDRESS" }}"
+  addr: "{{ getenv "REGISTRY_AUTH_ADDRESS" ":5001" }}"
  
 token:
-  issuer: "{{ getenv "REGISTRY_AUTH_ISSUER" }}"
-  expiration: {{ getenv "REGISTRY_AUTH_EXPIRATION" }}
+  issuer: "{{ getenv "REGISTRY_AUTH_ISSUER" "Example issuer" }}"
+  expiration: {{ getenv "REGISTRY_AUTH_EXPIRATION" "3600" }}
   certificate: "{{ getenv "REGISTRY_AUTH_CERT" }}"
   key: "{{ getenv "REGISTRY_AUTH_KEY" }}"
  
 users:
-  {{ getenv "REGISTRY_AUTH_ADMIN_USER" }}: 
+  {{ getenv "REGISTRY_AUTH_ADMIN_USER" "admin" }}:
     password: "{{ getenv "REGISTRY_AUTH_ADMIN_PASSWORD" }}"
-  {{ range jsonArray (getenv "REGISTRY_AUTH_USERS") }}{{ .username }}:
+  {{ range jsonArray (getenv "REGISTRY_AUTH_USERS" "[]") }}{{ .username }}:
     password: "{{ .password }}"
   {{ end }}
  
 acl:
   - match:
-      account: "{{ getenv "REGISTRY_AUTH_ADMIN_USER" }}"
+      account: "{{ getenv "REGISTRY_AUTH_ADMIN_USER" "admin" }}"
     actions: ["*"]
     comment: "Admin has full access to everything."
-  {{ range jsonArray (getenv "REGISTRY_AUTH_USERS") }}- match:
+  {{ range jsonArray (getenv "REGISTRY_AUTH_USERS" "[]") }}- match:
       account: "{{ .username }}"
       name: "{{ .username }}/*"
     actions: ["*"]

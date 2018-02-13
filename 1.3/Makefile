@@ -21,7 +21,7 @@ build:
 
 .PHONY: test
 test:
-	IMAGE=$(REPO):$(TAG) ./test.sh
+	./test.sh $(NAME) $(REPO):$(TAG)
 
 .PHONY: push
 push:

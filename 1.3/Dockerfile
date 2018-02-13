@@ -9,6 +9,10 @@ RUN set -xe; \
     export PYTHON_VER="2.7.13-r1"; \
     export PIP_VER="9.0.1-r1"; \
     \
+    apk add --update \
+        libressl \
+        apache2-utils \
+        pwgen; \
     apk add --update --no-cache -t .build-deps \
         git \
         make \
@@ -36,7 +40,11 @@ RUN set -xe; \
     make generate; \
     CGO_ENABLED=0 go build -v -i --ldflags=--s; \
     chmod 755 ./auth_server; \
-    cp ./auth_server /usr/local/bin/; \
+    cp ./auth_server /usr/local/bin/docker-registry-auth; \
+    cd /root; \
+    \
+    mkdir -p /etc/docker-registry-auth; \
+    mkdir -p /mnt/config; \
     \
     apk del --purge .build-deps; \
     rm -rf \
@@ -45,10 +53,11 @@ RUN set -xe; \
         /root/go \
         /var/cache/apk/*;
 
-COPY templates /etc/gotpl/
 COPY docker-entrypoint.sh /
+COPY templates /etc/gotpl/
 
 EXPOSE 5001
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["auth_server", "--v=3", "--alsologtostderr", "/config/auth.yml"]
+
+CMD ["docker-registry-auth", "--v=3", "--alsologtostderr", "/etc/docker-registry-auth/config.yaml"]
