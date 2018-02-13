@@ -1,13 +1,12 @@
 -include .env
 
-CESANTA_VER ?= 1.3
+APP_VER ?= 1.3
 
-BASE_IMAGE_TAG = $(CESANTA_VER)
-REPO = wodby/registry-auth
-NAME = registry-auth-$(CESANTA_VER)
+REPO = wodby/docker-registry-auth
+NAME = docker-registry-auth-$(APP_VER)
 
 ifeq ($(TAG),)
-    TAG ?= $(CESANTA_VER)
+    TAG ?= $(APP_VER)
 endif
 
 ifneq ($(STABILITY_TAG),)
