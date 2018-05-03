@@ -1,4 +1,4 @@
-.PHONY: %
+.PHONY: check-ready check-live
 
 host ?= localhost
 max_try ?= 1
