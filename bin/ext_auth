@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 set -e
 
@@ -6,12 +6,7 @@ if [[ -n "${DEBUG}" ]]; then
     set -x
 fi
 
-if [[ -z "${REGISTRY_AUTH_CALLBACK}" ]]; then
-    echo "Missing callback REGISTRY_AUTH_CALLBACK"
-    exit 1
-fi
+read u p
 
-while read line
-do
-  echo "$line" >> /tmp/test
-done
+curl "${REGISTRY_AUTH_CALLBACK}?user=${u}&password=${p}"
+curl "${REGISTRY_AUTH_CALLBACK}?user=${u}&password=${p}" > /tmp/test

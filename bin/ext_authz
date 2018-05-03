@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [[ -n "${DEBUG}" ]]; then
+    set -x
+fi
+
+while read line
+do
+  echo "$line" >> /tmp/test
+done

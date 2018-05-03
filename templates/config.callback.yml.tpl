@@ -7,12 +7,8 @@ token:
   certificate: "{{ getenv "REGISTRY_AUTH_CERT" }}"
   key: "{{ getenv "REGISTRY_AUTH_KEY" }}"
 
-{{ if getenv "REGISTRY_AUTH_CALLBACK" }}
 ext_auth:
   command: "/usr/local/bin/ext_auth"
-{{ end }}
 
-{{ if getenv "REGISTRY_AUTH_CALLBACK" }}
 ext_authz:
-  command: "/usr/local/bin/ext_auth"
-{{ end }}
+  command: "/usr/local/bin/ext_authz"
