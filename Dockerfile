@@ -30,6 +30,8 @@ COPY entrypoint.sh /
 
 VOLUME /mnt/config
 
+WORKDIR /mnt/config
+
 EXPOSE 5001
 
 ENTRYPOINT ["/entrypoint.sh"]
