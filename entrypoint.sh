@@ -6,37 +6,7 @@ if [[ -n "${DEBUG}" ]]; then
     set -x
 fi
 
-print_notice() {
-    printf "\n----------------------------------------------\n"
-    printf "\n${1}\n"
-    printf "\n----------------------------------------------\n"
-}
-
-generate_admin_password() {
-    if [[ -n "${REGISTRY_AUTH_ADMIN_PASSWORD}" ]]; then
-        echo "Admin password already specified"
-        return 0
-    fi
-
-    local pass_file="${DOCKER_AUTH_CONF_DIR}/.password"
-
-    if [[ -f "${pass_file}" ]]; then
-        local bcrypted_pass=`cat "${pass_file}"`
-        export REGISTRY_AUTH_ADMIN_PASSWORD="${bcrypted_pass}"
-        echo "Found stored admin password"
-        return 0
-    fi
-
-    local pass=$(pwgen -s 32 1)
-    local bcrypted_pass=$(htpasswd -bnBC 10 "" "${pass}" | tr -d ':\n')
-
-    echo "${bcrypted_pass}" > "${pass_file}"
-    export REGISTRY_AUTH_ADMIN_PASSWORD="${bcrypted_pass}"
-
-    print_notice "Generated admin password: ${pass}"
-}
-
-generate_key() {
+init_certificates() {
     local dir="${DOCKER_AUTH_CONF_DIR}/certs"
 
     if [[ -z "${REGISTRY_AUTH_CERT}" ]]; then
@@ -47,23 +17,28 @@ generate_key() {
         export REGISTRY_AUTH_KEY="${dir}/server.key"
     fi
 
-    if [[ -f "${REGISTRY_AUTH_CERT}" || -f "${REGISTRY_AUTH_KEY}" ]]; then
-        echo "Found stored cert and/or key"
-        return 0
+    if [[ ! -f "${REGISTRY_AUTH_CERT}" && ! -f "${REGISTRY_AUTH_KEY}" ]]; then
+        echo "SSL certificates and key are missing, generating new"
+        gen_ssl_certs "${dir}" "" "server"
+        cat "${REGISTRY_AUTH_CERT}"
+        echo ""
+        echo ""
     fi
-
-    gen_ssl_certs "${dir}" "" "server"
-
-    local crt_content=`cat "${REGISTRY_AUTH_CERT}"`
-    print_notice "Generated certificate:\n${crt_content}"
 }
 
-generate_key
+init_certificates
 
 if [[ -n "${REGISTRY_AUTH_CALLBACK}" ]]; then
     gotpl /etc/gotpl/config.callback.yml.tpl > "${DOCKER_AUTH_CONF_DIR}/config.yml"
 else
-    generate_admin_password
+    if [[ -z "${REGISTRY_AUTH_ADMIN_PASSWORD}" ]]; then
+        echo "Admin password is missing, generating automatically"
+        export REGISTRY_AUTH_ADMIN_PASSWORD=$(htpasswd -bnBC 10 "" $(pwgen -s 32 1) | tr -d ':\n')
+        echo "Generated admin password: ${REGISTRY_AUTH_ADMIN_PASSWORD}"
+        echo ""
+        echo ""
+    fi
+
     gotpl /etc/gotpl/config.yml.tpl > "${DOCKER_AUTH_CONF_DIR}/config.yml"
 fi
 
