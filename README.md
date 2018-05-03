@@ -12,7 +12,7 @@
 Overview:
 
 * All images are based on Alpine Linux
-* Base image: [wodby/php](https://github.com/wodby/php)
+* Base image: [wodby/alpine](https://github.com/wodby/alpine)
 * [Travis CI builds](https://travis-ci.org/wodby/docker-registry-auth) 
 * [Docker Hub](https://hub.docker.com/r/wodby/docker-registry-auth)
 
@@ -33,8 +33,6 @@ Supported tags and respective `Dockerfile` links:
 | `REGISTRY_AUTH_ISSUER`          | `Example issuer` |             |
 | `REGISTRY_AUTH_KEY`             |                  |             |
 | `REGISTRY_AUTH_USERS`           |                  |             |
-
-See [wodby/php](https://github.com/wodby/php) for all variables
 
 ## Orchestration actions
 
