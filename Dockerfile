@@ -36,4 +36,4 @@ EXPOSE 5001
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-CMD ["auth_server", "--v=3", "--alsologtostderr", "/mnt/config/config.yml"]
+CMD ["auth_server", "--v=5", "--alsologtostderr", "/mnt/config/config.yml"]
