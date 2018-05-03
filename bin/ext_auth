@@ -11,4 +11,7 @@ if [[ -z "${REGISTRY_AUTH_CALLBACK}" ]]; then
     exit 1
 fi
 
-echo "${@}"
+while read line
+do
+  echo "$line" >> /tmp/test
+done
