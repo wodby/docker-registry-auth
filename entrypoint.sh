@@ -26,19 +26,35 @@ init_certificates() {
     fi
 }
 
+generate_admin_password() {
+    local pass_file="${DOCKER_AUTH_CONF_DIR}/.password"
+
+    if [[ -f "${pass_file}" ]]; then
+        local bcrypted_pass=$(cat "${pass_file}")
+        export REGISTRY_AUTH_ADMIN_PASSWORD="${bcrypted_pass}"
+    fi
+
+    if [[ -z "${REGISTRY_AUTH_ADMIN_PASSWORD}" ]]; then
+        echo "Admin password is missing, generating automatically"
+
+        local pass=$(pwgen -s 32 1)
+        local bcrypted_pass=$(htpasswd -bnBC 10 "" "${pass}" | tr -d ':\n')
+
+        echo "${bcrypted_pass}" > "${pass_file}"
+        export REGISTRY_AUTH_ADMIN_PASSWORD="${bcrypted_pass}"
+
+        echo "Generated admin password: ${pass}"
+        echo ""
+        echo ""
+    fi
+}
+
 init_certificates
 
 if [[ -n "${REGISTRY_AUTH_CALLBACK}" ]]; then
     gotpl /etc/gotpl/config.callback.yml.tpl > "${DOCKER_AUTH_CONF_DIR}/config.yml"
 else
-    if [[ -z "${REGISTRY_AUTH_ADMIN_PASSWORD}" ]]; then
-        echo "Admin password is missing, generating automatically"
-        export REGISTRY_AUTH_ADMIN_PASSWORD=$(htpasswd -bnBC 10 "" $(pwgen -s 32 1) | tr -d ':\n')
-        echo "Generated admin password: ${REGISTRY_AUTH_ADMIN_PASSWORD}"
-        echo ""
-        echo ""
-    fi
-
+    generate_admin_password
     gotpl /etc/gotpl/config.yml.tpl > "${DOCKER_AUTH_CONF_DIR}/config.yml"
 fi
 

@@ -1,5 +1,5 @@
 server:
-  addr: "{{ getenv "REGISTRY_AUTH_ADDRESS" ":5001" }}"
+  addr: ":5001"
  
 token:
   issuer: "{{ getenv "REGISTRY_AUTH_ISSUER" "Example issuer" }}"

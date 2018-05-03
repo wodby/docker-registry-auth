@@ -28,6 +28,8 @@ COPY templates /etc/gotpl/
 COPY bin /usr/local/bin
 COPY entrypoint.sh /
 
+VOLUME /mnt/config
+
 EXPOSE 5001
 
 ENTRYPOINT ["/entrypoint.sh"]

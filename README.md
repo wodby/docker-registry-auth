@@ -24,7 +24,6 @@ Supported tags and respective `Dockerfile` links:
 
 | Variable                        | Default Value    | Description |
 | ------------------------------- | ---------------- | ----------- |
-| `REGISTRY_AUTH_ADDRESS`         | `:5001`          |             |
 | `REGISTRY_AUTH_ADMIN_PASSWORD`  |                  |             |
 | `REGISTRY_AUTH_ADMIN_USER`      | `admin`          |             |
 | `REGISTRY_AUTH_CALLBACK`        |                  |             |
@@ -45,7 +44,6 @@ commands:
  
 default params values:
     host localhost
-    port 5001
     max_try 1
     wait_seconds 1
     delay_seconds 0
