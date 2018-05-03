@@ -6,7 +6,7 @@ if [[ -n "${DEBUG}" ]]; then
     set -x
 fi
 
-init_certificates() {
+generate_certificate() {
     local dir="${DOCKER_AUTH_CONF_DIR}"
 
     if [[ -z "${REGISTRY_AUTH_CERT}" ]]; then
@@ -18,7 +18,7 @@ init_certificates() {
     fi
 
     if [[ ! -f "${REGISTRY_AUTH_CERT}" && ! -f "${REGISTRY_AUTH_KEY}" ]]; then
-        echo "SSL certificates and key are missing, generating new"
+        echo "SSL certificate and key are missing, generating new"
         gen_ssl_certs "${dir}" "" "server"
         cat "${REGISTRY_AUTH_CERT}"
         echo ""
@@ -49,7 +49,7 @@ generate_admin_password() {
     fi
 }
 
-init_certificates
+generate_certificate
 
 if [[ -n "${REGISTRY_AUTH_CALLBACK}" ]]; then
     gotpl /etc/gotpl/config.callback.yml.tpl > "${DOCKER_AUTH_CONF_DIR}/config.yml"
