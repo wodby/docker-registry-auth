@@ -9,10 +9,10 @@ token:
 
 {{ if getenv "REGISTRY_AUTH_CALLBACK" }}
 ext_auth:
-  command: "auth"
+  command: "/usr/local/bin/auth"
 {{ end }}
 
 {{ if getenv "REGISTRY_AUTH_CALLBACK" }}
 ext_authz:
-  command: "auth"
+  command: "/usr/local/bin/auth"
 {{ end }}
