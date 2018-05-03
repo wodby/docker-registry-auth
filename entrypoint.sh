@@ -6,13 +6,7 @@ if [[ -n "${DEBUG}" ]]; then
     set -x
 fi
 
-exec_tpl() {
-    if [[ -f "/etc/gotpl/$1" ]]; then
-        gotpl "/etc/gotpl/$1" > "$2"
-    fi
-}
-
-printNotice() {
+print_notice() {
     printf "\n----------------------------------------------\n"
     printf "\n${1}\n"
     printf "\n----------------------------------------------\n"
@@ -24,8 +18,7 @@ generate_admin_password() {
         return 0
     fi
 
-    local dir="/mnt/config"
-    local pass_file="${dir}/.password"
+    local pass_file="${DOCKER_AUTH_CONF_DIR}/.password"
 
     if [[ -f "${pass_file}" ]]; then
         local bcrypted_pass=`cat "${pass_file}"`
@@ -40,11 +33,11 @@ generate_admin_password() {
     echo "${bcrypted_pass}" > "${pass_file}"
     export REGISTRY_AUTH_ADMIN_PASSWORD="${bcrypted_pass}"
 
-    printNotice "Generated admin password: ${pass}"
+    print_notice "Generated admin password: ${pass}"
 }
 
 generate_key() {
-    local dir="/mnt/config"
+    local dir="${DOCKER_AUTH_CONF_DIR}/certs"
 
     if [[ -z "${REGISTRY_AUTH_CERT}" ]]; then
         export REGISTRY_AUTH_CERT="${dir}/server.crt"
@@ -59,18 +52,25 @@ generate_key() {
         return 0
     fi
 
-    gen-ssl-certs.sh "${dir}" "" "server"
+    gen_ssl_certs "${dir}" "" "server"
 
     local crt_content=`cat "${REGISTRY_AUTH_CERT}"`
-    printNotice "Generated certificate:\n${crt_content}"
+    print_notice "Generated certificate:\n${crt_content}"
 }
 
-process_templates() {
-    exec_tpl "config.yml.tpl" "/etc/docker-registry-auth/config.yaml"
-}
-
-generate_admin_password
 generate_key
-process_templates
 
-exec $@
+if [[ -n "${REGISTRY_AUTH_CALLBACK}" ]]; then
+    gotpl /etc/gotpl/config.callback.yml.tpl > "${DOCKER_AUTH_CONF_DIR}/config.yml"
+else
+    generate_admin_password
+    gotpl /etc/gotpl/config.yml.tpl > "${DOCKER_AUTH_CONF_DIR}/config.yml"
+fi
+
+exec_init_scripts
+
+if [[ "${1}" == 'make' ]]; then
+    exec "${@}" -f /usr/local/bin/actions.mk
+else
+    exec $@
+fi

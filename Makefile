@@ -1,12 +1,10 @@
--include .env
-
-APP_VER ?= 1.3
+AUTH_SERVER_VER ?= 1.3.1
 
 REPO = wodby/docker-registry-auth
-NAME = docker-registry-auth-$(APP_VER)
+NAME = docker-registry-auth-$(AUTH_SERVER_VER)
 
 ifeq ($(TAG),)
-    TAG ?= $(APP_VER)
+    TAG ?= $(AUTH_SERVER_VER)
 endif
 
 ifneq ($(STABILITY_TAG),)
@@ -15,41 +13,35 @@ ifneq ($(STABILITY_TAG),)
     endif
 endif
 
-.PHONY: build
+.PHONY: %
+
+default: build
+
 build:
-	docker build -t $(REPO):$(TAG) ./
+	docker build -t $(REPO):$(TAG) --build-arg AUTH_SERVER_VER=$(AUTH_SERVER_VER) ./
 
-.PHONY: test
 test:
-	cd ./test && IMAGE=$(REPO):$(TAG) ./test.sh
+	./tests.sh $(REPO):$(TAG)
 
-.PHONY: push
 push:
 	docker push $(REPO):$(TAG)
 
-.PHONY: shell
 shell:
 	docker run --rm --name $(NAME) -i -t $(PORTS) $(VOLUMES) $(ENV) $(REPO):$(TAG) /bin/bash
 
-.PHONY: run
 run:
 	docker run --rm --name $(NAME) $(PORTS) $(VOLUMES) $(ENV) $(REPO):$(TAG) $(CMD)
 
-.PHONY: start
 start:
 	docker run -d --name $(NAME) $(PORTS) $(VOLUMES) $(ENV) $(REPO):$(TAG)
 
-.PHONY: stop
 stop:
 	docker stop $(NAME)
 
-.PHONY: logs
 logs:
 	docker logs $(NAME)
 
-.PHONY: clean
 clean:
 	-docker rm -f $(NAME)
 
-.PHONY: release
 release: build push

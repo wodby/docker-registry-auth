@@ -6,14 +6,14 @@ token:
   expiration: {{ getenv "REGISTRY_AUTH_EXPIRATION" "3600" }}
   certificate: "{{ getenv "REGISTRY_AUTH_CERT" }}"
   key: "{{ getenv "REGISTRY_AUTH_KEY" }}"
- 
+
 users:
   {{ getenv "REGISTRY_AUTH_ADMIN_USER" "admin" }}:
     password: "{{ getenv "REGISTRY_AUTH_ADMIN_PASSWORD" }}"
   {{ range jsonArray (getenv "REGISTRY_AUTH_USERS" "[]") }}{{ .username }}:
     password: "{{ .password }}"
   {{ end }}
- 
+
 acl:
   - match:
       account: "{{ getenv "REGISTRY_AUTH_ADMIN_USER" "admin" }}"

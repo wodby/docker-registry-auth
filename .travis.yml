@@ -1,4 +1,3 @@
-# Trigger build QV5Tealy
 language: bash
 
 services:
@@ -7,19 +6,11 @@ services:
 env:
   global:
     - LATEST_TAG=1.3
-    - APP13=1.3.0
   matrix:
-    - TAG=1.3 APP_VER="${APP13}" EXTRA_TAG=1
+    - TAG=1.3 AUTH_SERVER_VER=1.3.1 EXTRA_TAG=1
 
 script:
-  - cd "${APP_VER:0:1}" || cd "${APP_VER:0:3}"
-  - travis_retry make && make test
+  - make && make test
 
 after_success:
-  - bash "${TRAVIS_BUILD_DIR}/travis-release.sh"
-
-notifications:
-  on_failure: never
-  slack:
-    secure: |
-      WbEitPjckt3SkkTntOzEDUXqz16gVdoibFC4KJ0FtFajnHupMpyW6jjcxHhFaXzZJqinesb0ah2JlVj6G7rACRFYhZxsd4BXF0YCKTOZ/4w72novLpRIiSHkm9ybwRSHadTXZj0nB9cno7oFic/5fwRWsLRkcqIOvN++1w0wq4qkppR8qLLvEy6DPDB6Bjq1x7WY9YsLt5vbm8WBnZbLoHmZF2QhqVMbMJhBj7972UNMOtdzmfi+Bv79hnmC1mEsbLBChOhy7vbIO8KtJMfiS99Z8cdyBFFlhY22aPs/9CGOF2yVlrfyY5B4IXPyK2RuXl8FnC8Jr9KXhK+srPlZ1KJqJgxgT+MJwvAcViyE836cZcI2k7xdSLjtDD6xl9uo9bwgG11QGJ8KxqzzUSybdbiEhCL8K5/8QLpNvcbu96XSHMAAr740FqMddO93Jos6H4sHBKi5ueHbP6vXB3MpYVNk3HjK6KPlDhZnZQ2vvhoAAIWAT8oxVTpHhAk7dkjKdB5fovS7xIVW5ywjCFVR0miP8ktKoKQsPudfl7HDK6RNmatDoG9AV9/6W4gn0i7wjL0rq1CstUOw8dVzy4ldDySdgSGqXRugITfoFHrVW57W2N35IP1lRohINj5Q4Zs5v2L5KN4OMYKng1qERMeBWOr2soFU0HI9fWYCojYgnK4=
+  - . "${TRAVIS_BUILD_DIR}/release.sh"
