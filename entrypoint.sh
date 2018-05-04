@@ -7,7 +7,7 @@ if [[ -n "${DEBUG}" ]]; then
 fi
 
 generate_certificate() {
-    local dir="${DOCKER_AUTH_CONF_DIR}"
+    local dir="${DOCKER_AUTH_CERTS_DIR}"
 
     if [[ -z "${REGISTRY_AUTH_CERT}" ]]; then
         export REGISTRY_AUTH_CERT="${dir}/server.crt"
