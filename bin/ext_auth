@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
 
-set -e
-
 if [[ -n "${DEBUG}" ]]; then
     set -x
 fi
 
-read u p
+read user password
 
-curl "${REGISTRY_AUTH_CALLBACK}?user=${u}&password=${p}"
-curl "${REGISTRY_AUTH_CALLBACK}?user=${u}&password=${p}" > /tmp/test
+curl -s -o /dev/null -i -w '%{http_code}' "${REGISTRY_AUTH_CALLBACK_AUTH}?user=${user}&password=${password}" | grep -q 200

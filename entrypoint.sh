@@ -51,7 +51,7 @@ generate_admin_password() {
 
 generate_certificate
 
-if [[ -n "${REGISTRY_AUTH_CALLBACK}" ]]; then
+if [[ -n "${REGISTRY_AUTH_CALLBACK_AUTH}" && -n "${REGISTRY_AUTH_CALLBACK_AUTHZ}" ]]; then
     gotpl /etc/gotpl/config.callback.yml.tpl > "${DOCKER_AUTH_CONF_DIR}/config.yml"
 else
     generate_admin_password
