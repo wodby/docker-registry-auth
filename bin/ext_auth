@@ -6,4 +6,6 @@ fi
 
 read user password
 
-curl -s -o /dev/null -i -w '%{http_code}' "${REGISTRY_AUTH_CALLBACK_AUTH}?user=${user}&password=${password}" | grep -q 200
+set -e
+
+curl -sf "${REGISTRY_AUTH_CALLBACK_AUTH}?user=${user}&password=${password}"

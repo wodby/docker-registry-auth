@@ -6,8 +6,6 @@ fi
 
 read data
 
-curl -s -o /dev/null -i -w '%{http_code}' \
-    --header "Content-Type: application/json" \
-    --request POST \
-    --data "${data}" \
-    "${REGISTRY_AUTH_CALLBACK_AUTHZ}" | grep -q 200
+set -e
+
+curl -sf --header "Content-Type: application/json" --request POST --data "${data}" "${REGISTRY_AUTH_CALLBACK_AUTHZ}"
