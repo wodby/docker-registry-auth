@@ -12,3 +12,13 @@ ext_auth:
 
 ext_authz:
   command: "/usr/local/bin/ext_authz"
+
+{{ if getenv "REGISTRY_AUTH_PUBLIC_PULL_ACCOUNT" }}
+users:
+  "" : {}
+
+acl:
+  - match:
+      name: "{{ getenv "REGISTRY_AUTH_PUBLIC_PULL_ACCOUNT" }}"
+      actions: ["pull"]
+{{ end }}
