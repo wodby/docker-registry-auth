@@ -21,7 +21,10 @@ endif
 default: build
 
 build:
-	docker build -t $(REPO):$(TAG) --build-arg AUTH_SERVER_VER=$(AUTH_SERVER_VER) ./
+	docker build -t $(REPO):$(TAG) \
+		--build-arg AUTH_SERVER_VER=$(AUTH_SERVER_VER) \
+		--build-arg ALPINE_VER=$(ALPINE_VER) \
+		./
 
 # --load doesn't work with multiple platforms https://github.com/docker/buildx/issues/59
 # we need to save cache to run tests first.

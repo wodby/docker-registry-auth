@@ -16,6 +16,7 @@ RUN set -xe; \
         jq \
         libressl \
         make \
+        openssl \
         pwgen; \
     \
     gotpl_url="https://github.com/wodby/gotpl/releases/download/0.3.3/gotpl-linux-amd64.tar.gz"; \
