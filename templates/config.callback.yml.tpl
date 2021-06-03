@@ -7,14 +7,13 @@ token:
   certificate: "{{ getenv "REGISTRY_AUTH_CERT" }}"
   key: "{{ getenv "REGISTRY_AUTH_KEY" }}"
 
-{{ if getenv "REGISTRY_AUTH_ANON_PULL_ACCOUNT" }}
+{{ if getenv "REGISTRY_AUTH_PUBLIC_PULL_ACCOUNT" }}
 users:
   "" : {}
 
 acl:
   - match:
-      account: ""
-      name: "{{ getenv "REGISTRY_AUTH_ANON_PULL_ACCOUNT" }}"
+      name: "{{ getenv "REGISTRY_AUTH_PUBLIC_PULL_ACCOUNT" }}"
     actions: ["pull"]
 {{ end }}
 

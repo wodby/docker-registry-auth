@@ -26,7 +26,7 @@ Supported tags and respective `Dockerfile` links:
 | ------------------------------- | ---------------- | ----------- |
 | `REGISTRY_AUTH_ADMIN_PASSWORD`  |                  |             |
 | `REGISTRY_AUTH_ADMIN_USER`      | `admin`          |             |
-| `REGISTRY_AUTH_ANON_PULL_ACCOUNT` |         |             |
+| `REGISTRY_AUTH_PUBLIC_PULL_ACCOUNT` |         |             |
 | `REGISTRY_AUTH_CALLBACK_AUTH`   |                  |             |
 | `REGISTRY_AUTH_CALLBACK_AUTHZ`  |                  |             |
 | `REGISTRY_AUTH_CERT`            |                  |             |
