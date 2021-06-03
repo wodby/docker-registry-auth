@@ -28,8 +28,8 @@ acl:
     actions: ["*"]
     comment: "User can pull from his own namespace"
   {{ end }}
-{{ if getenv "REGISTRY_AUTH_ANON_PULL_ACCOUNT" }}- match:
+  {{ if getenv "REGISTRY_AUTH_ANON_PULL_ACCOUNT" }}- match:
       account: ""
+      name: "{{ getenv "REGISTRY_AUTH_ANON_PULL_ACCOUNT" }}"
     actions: ["pull"]
-    name: {{ getenv "REGISTRY_AUTH_ANON_PULL_ACCOUNT" }}
 {{ end }}

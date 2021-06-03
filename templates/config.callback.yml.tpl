@@ -14,8 +14,8 @@ users:
 acl:
   - match:
       account: ""
+      name: "{{ getenv "REGISTRY_AUTH_ANON_PULL_ACCOUNT" }}"
     actions: ["pull"]
-    name: {{ getenv "REGISTRY_AUTH_ANON_PULL_ACCOUNT" }}
 {{ end }}
 
 ext_auth:
