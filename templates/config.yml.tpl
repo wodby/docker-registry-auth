@@ -13,6 +13,9 @@ users:
   {{ range jsonArray (getenv "REGISTRY_AUTH_USERS" "[]") }}{{ .username }}:
     password: "{{ .password }}"
   {{ end }}
+{{ if getenv "REGISTRY_AUTH_ANON_PULL_ACCOUNT" }}
+  "" : {}
+{{ end }}
 
 acl:
   - match:
@@ -25,3 +28,8 @@ acl:
     actions: ["*"]
     comment: "User can pull from his own namespace"
   {{ end }}
+{{ if getenv "REGISTRY_AUTH_ANON_PULL_ACCOUNT" }}- match:
+      account: ""
+    actions: ["pull"]
+    name: {{ getenv "REGISTRY_AUTH_ANON_PULL_ACCOUNT" }}
+{{ end }}

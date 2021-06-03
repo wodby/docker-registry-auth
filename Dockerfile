@@ -1,11 +1,11 @@
 ARG AUTH_SERVER_VER
+ARG ALPINE_VER
 
 FROM cesanta/docker_auth:${AUTH_SERVER_VER} as build
 
-FROM wodby/alpine:3.7-2.0.1
+FROM wodby/alpine:${ALPINE_VER}
 
-ENV GOTPL_VER="0.1.5" \
-    DOCKER_AUTH_CONF_DIR="/etc/docker_auth" \
+ENV DOCKER_AUTH_CONF_DIR="/etc/docker_auth" \
     DOCKER_AUTH_CERTS_DIR="/etc/docker_auth/certs"
 
 RUN set -xe; \
@@ -18,8 +18,8 @@ RUN set -xe; \
         make \
         pwgen; \
     \
-    gotpl_url="https://github.com/wodby/gotpl/releases/download/${GOTPL_VER}/gotpl-alpine-linux-amd64-${GOTPL_VER}.tar.gz"; \
-    wget -qO- "${gotpl_url}" | tar xz -C /usr/local/bin; \
+    gotpl_url="https://github.com/wodby/gotpl/releases/download/0.3.3/gotpl-linux-amd64.tar.gz"; \
+    wget -qO- "${gotpl_url}" | tar xz --no-same-owner -C /usr/local/bin; \
     \
     mkdir -p "${DOCKER_AUTH_CONF_DIR}" "${DOCKER_AUTH_CERTS_DIR}"
 
