@@ -1,5 +1,5 @@
-AUTH_SERVER_VER ?= 1.7.0
-ALPINE_VER ?= 3.13
+AUTH_SERVER_VER ?= 1.12.0
+ALPINE_VER ?= 3.20
 
 REPO = wodby/docker-registry-auth
 NAME = docker-registry-auth-$(AUTH_SERVER_VER)
