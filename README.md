@@ -22,18 +22,18 @@ Supported tags and respective `Dockerfile` links:
 
 ## Environment Variables
 
-| Variable                        | Default Value    | Description |
-| ------------------------------- | ---------------- | ----------- |
-| `REGISTRY_AUTH_ADMIN_PASSWORD`  |                  |             |
-| `REGISTRY_AUTH_ADMIN_USER`      | `admin`          |             |
-| `REGISTRY_AUTH_PUBLIC_PULL_ACCOUNT` |         |             |
-| `REGISTRY_AUTH_CALLBACK_AUTH`   |                  |             |
-| `REGISTRY_AUTH_CALLBACK_AUTHZ`  |                  |             |
-| `REGISTRY_AUTH_CERT`            |                  |             |
-| `REGISTRY_AUTH_EXPIRATION`      | `3600`           |             |
-| `REGISTRY_AUTH_ISSUER`          | `Example issuer` |             |
-| `REGISTRY_AUTH_KEY`             |                  |             |
-| `REGISTRY_AUTH_USERS`           |                  |             |
+| Variable                            | Default Value    | Description |
+|-------------------------------------|------------------|-------------|
+| `REGISTRY_AUTH_ADMIN_PASSWORD`      |                  |             |
+| `REGISTRY_AUTH_ADMIN_USER`          | `admin`          |             |
+| `REGISTRY_AUTH_PUBLIC_PULL_ACCOUNT` |                  |             |
+| `REGISTRY_AUTH_CALLBACK_AUTH`       |                  |             |
+| `REGISTRY_AUTH_CALLBACK_AUTHZ`      |                  |             |
+| `REGISTRY_AUTH_CERT`                |                  |             |
+| `REGISTRY_AUTH_EXPIRATION`          | `3600`           |             |
+| `REGISTRY_AUTH_ISSUER`              | `Example issuer` |             |
+| `REGISTRY_AUTH_KEY`                 |                  |             |
+| `REGISTRY_AUTH_USERS`               |                  |             |
 
 ## Orchestration actions
 

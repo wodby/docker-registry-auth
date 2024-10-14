@@ -19,7 +19,7 @@ RUN set -xe; \
         openssl \
         pwgen; \
     \
-    gotpl_url="https://github.com/wodby/gotpl/releases/download/0.3.3/gotpl-linux-amd64.tar.gz"; \
+    gotpl_url="https://github.com/wodby/gotpl/releases/latest/download/gotpl-linux-amd64.tar.gz"; \
     wget -qO- "${gotpl_url}" | tar xz --no-same-owner -C /usr/local/bin; \
     \
     mkdir -p "${DOCKER_AUTH_CONF_DIR}" "${DOCKER_AUTH_CERTS_DIR}"
