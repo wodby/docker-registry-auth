@@ -18,7 +18,7 @@ Overview:
 
 Supported tags and respective `Dockerfile` links:
 
-* `1`, `1.7`, `latest`  [_(Dockerfile)_](https://github.com/wodby/docker-registry-auth/tree/master/Dockerfile)
+* `1`, `1.12`, `latest`  [_(Dockerfile)_](https://github.com/wodby/docker-registry-auth/tree/master/Dockerfile)
 
 ## Environment Variables
 
