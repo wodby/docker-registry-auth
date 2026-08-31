@@ -10,10 +10,6 @@ on:
 
   pull_request:
 
-env:
-  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,6 +17,9 @@ jobs:
     - uses: actions/checkout@v4
     - uses: docker/setup-buildx-action@v3
     - uses: ./.github/actions
+      env:
+        DOCKER_USERNAME: ${{ github.event_name != 'pull_request' && secrets.DOCKER_USERNAME || '' }}
+        DOCKER_PASSWORD: ${{ github.event_name != 'pull_request' && secrets.DOCKER_PASSWORD || '' }}
       with:
         version: 1.12.0
         tags: 1.12,1,latest
